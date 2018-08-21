@@ -1,5 +1,5 @@
 # pystudy
-Virtual Index Cards w/ Python!
+Virtual Index Cards w/ Python & Tkinter!
 
 By: Brennen Green
 
