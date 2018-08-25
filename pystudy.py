@@ -1,4 +1,5 @@
 import tkinter as tk
+import functools as ftools
 from os import listdir, getcwd
 from os.path import isfile, join
 
@@ -7,6 +8,7 @@ study_questions = {}
 question_keys = []
 question_values = []
 
+
 def get_study_sets():
     path = getcwd() + "\studysets"
     sets = [f for f in listdir(path) if isfile(join(path, f))]
@@ -14,14 +16,18 @@ def get_study_sets():
 
 
 def create_dict(file):
+    print(file)
+    global question_keys
+    global question_values
     study_questions.clear()
+    question_keys.clear()
+    question_values.clear()
     with open(getcwd() + "\studysets\\" + file, 'r') as f:
         for line in f:
             line = line.strip("\n")
             key, value = line.split(':')
             study_questions[key] = value
-    global question_keys
-    global question_values
+
     for key in study_questions:
         question_keys.append(key)
         question_values.append(study_questions[key])
@@ -74,7 +80,7 @@ class PageOne(tk.Frame):
         menu_btn.menu = tk.Menu(menu_btn, tearoff=0)
         menu_btn["menu"] = menu_btn.menu
         for f in get_study_sets():
-            menu_btn.menu.add_command(label=f, command=lambda: create_dict(f))
+            menu_btn.menu.add_command(label=f, command=ftools.partial(create_dict, f))
         start_btn = tk.Button(self, text="Next", bg="#979AA1",
                               activebackground="#5a5c60", fg="#fdfdfe", activeforeground="#fdfdfe",
                               relief=tk.FLAT, command=lambda: controller.show_frame(PageTwo))
